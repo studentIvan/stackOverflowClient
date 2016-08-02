@@ -1,0 +1,104 @@
+<div class="container-fluid search-results-block">
+
+  <div class="alert alert-info" role="alert" data-ng-if="results.searchError">
+    <strong>Извините!</strong> Не удалось найти информацию по вашему запросу.
+    Попробуйте <a data-ui-sref="main" class="alert-link">другой</a> запрос.
+  </div>
+
+  <div class="panel panel-info" data-ng-if="results.selectedRow">
+    <div class="panel-heading">
+      <h3 class="panel-title" data-ng-if="results.selectedRow.owner">
+        Наиболее популярные вопросы автора 
+        <span data-ng-bind-html="results.selectedRow.owner"></span>
+      </h3>
+      <h3 class="panel-title" data-ng-if="results.selectedRow.tag">
+        Наиболее популярные вопросы по тегу 
+        <span data-ng-bind="results.selectedRow.tag"></span>
+      </h3>
+    </div>
+    <div class="panel-body">
+      <div class="alert alert-info" role="alert" data-ng-if="results.subSearchError">
+        Нет подробной информации.
+      </div>
+      <table class="table table-hover search-results-block__table">
+        <thead>
+          <tr>
+            <th data-ng-repeat="th in results.tableHeaders" data-ng-click="results.tableSort(th.name, true)">
+              {{ th.title }}
+              <span data-ng-show="results.subSortType == th.name && !results.subSortReverse" 
+                class="fa fa-caret-down"></span>
+              <span data-ng-show="results.subSortType == th.name && results.subSortReverse" 
+                class="fa fa-caret-up"></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr 
+            data-ng-repeat="item in results.selectedRow.items | orderBy:results.subSortType:results.subSortReverse | limitTo: 15">
+            <td class="search-results-block__table-cell--clickable"
+              data-ui-sref="question({ id: item.question_id })">
+              <img data-ng-src="{{ item.owner.profile_image }}" width="16" height="16"> 
+              <span data-ng-bind-html="item.owner.display_name"></span>
+            </td>
+            <td class="search-results-block__table-cell--clickable" 
+              data-ui-sref="question({ id: item.question_id })"
+              data-ng-bind-html="item.title"
+              ng-keyup="$event.keyCode == 13 && results.goQuestion(item.question_id)"
+              tabindex="{{ item.question_id }}"></td>
+            <td class="search-results-block__table-cell--clickable"
+              data-ui-sref="question({ id: item.question_id })">{{ item.answer_count }}</td>
+            <td>
+              <a href data-ng-repeat="tag in item.tags" class="search-results-block__table-tag"
+                ng-click="results.selectRow(item, 'tag', tag)">
+                <span class="label label-info">{{ tag }}</span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel panel-primary" data-ng-if="!results.searchError || !loadingProcess">
+    <div class="panel-heading">
+      <h3 class="panel-title">Результаты поиска</h3>
+    </div>
+    <div class="panel-body">
+      <table class="table table-hover search-results-block__table">
+        <thead>
+          <tr>
+            <th data-ng-repeat="th in results.tableHeaders" data-ng-click="results.tableSort(th.name)">
+              {{ th.title }}
+              <span data-ng-show="results.sortType == th.name && !results.sortReverse" 
+                class="fa fa-caret-down"></span>
+              <span data-ng-show="results.sortType == th.name && results.sortReverse" 
+                class="fa fa-caret-up"></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-ng-repeat="item in results.items | orderBy:results.sortType:results.sortReverse | limitTo: 15">
+            <td class="search-results-block__table-cell--clickable"
+              ng-click="results.selectRow(item, 'owner', item.owner.display_name)">
+              <img data-ng-src="{{ item.owner.profile_image }}" width="16" height="16"> 
+              <span data-ng-bind-html="item.owner.display_name"></span>
+            </td>
+            <td class="search-results-block__table-cell--clickable" 
+              data-ui-sref="question({ id: item.question_id })"
+              data-ng-bind-html="item.title"
+              ng-keyup="$event.keyCode == 13 && results.goQuestion(item.question_id)"
+              tabindex="{{ item.question_id }}"></td>
+            <td class="search-results-block__table-cell--clickable"
+              data-ui-sref="question({ id: item.question_id })">{{ item.answer_count }}</td>
+            <td>
+              <a href data-ng-repeat="tag in item.tags" class="search-results-block__table-tag"
+                ng-click="results.selectRow(item, 'tag', tag)">
+                <span class="label label-info">{{ tag }}</span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

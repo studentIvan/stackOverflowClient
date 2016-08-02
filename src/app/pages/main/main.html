@@ -1,0 +1,14 @@
+<div class="container-fluid">
+    <div class="jumbotron search-block animated zoomInLeft" ng-if="!loadingProcess">
+        <div class="container">
+            <h1>Поиск на StackOverflow</h1>
+            <form name="stackOverflowSearchForm" class="form-inline" ng-submit="searchCtrl.doSearch()">
+                <input type="search" class="form-control input-lg" name="query" 
+                    placeholder="Введите текст вопроса" autofocus="autofocus" 
+                    ng-model="searchCtrl.query" required>
+                <button type="submit" class="btn btn-primary btn-lg" 
+                    role="button" ng-disabled="stackOverflowSearchForm.$invalid">Искать! »</button>
+            </form>
+        </div>
+    </div>
+</div>

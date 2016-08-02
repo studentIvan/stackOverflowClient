@@ -1,0 +1,31 @@
+
+$icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
+@import '~bootstrap-sass/assets/stylesheets/_bootstrap.scss';
+@import '../animate.css';
+
+
+html { height: 100%; }
+body {
+  min-height: 100%;
+  position: relative;
+  padding-bottom: 60px;
+}
+
+.search-block {
+    &.ng-enter {
+      animation: fadeIn 1s;
+      border: solid 20px red;
+    }
+
+    &.ng-leave {
+      animation: fadeOut 1s;
+    }
+
+    form {
+        margin-top: 50px;
+
+        input {
+            width: 60% !important;
+        }
+    }
+}

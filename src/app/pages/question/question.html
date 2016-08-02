@@ -1,0 +1,29 @@
+<div class="container-fluid question-block animated" data-ng-if="!loadingProcess">
+    <div class="panel panel-primary animated slideInUp">
+        <div class="panel-heading">
+            <h3 class="panel-title" data-ng-bind-html="question.title"></h3>
+        </div>
+        <div class="panel-body" data-ng-bind-html="question.body"></div>
+        <div class="panel-footer">
+            <span class="pull-right" data-ng-bind="question.localizedCreationDate"></span>
+            <img data-ng-src="{{ question.owner.profile_image }}" 
+                width="16" height="16"> {{ question.owner.display_name }}
+        </div>
+    </div>
+    <div class="alert alert-info" role="alert" data-ng-if="!question.answers">
+        <strong>Ответов нет!</strong> Никто еще не дал ответ на этот вопрос, 
+        <a data-ng-href="{{ question.link }}" target="_blank" class="alert-link">у вас есть все шансы</a>.
+    </div>
+    <div class="panel panel-default animated slideInUp" ng-class="{'panel-success': question.accepted_answer_id == answer.answer_id }"
+        data-ng-repeat="answer in question.answers">
+        <div class="panel-heading" ng-if="question.accepted_answer_id == answer.answer_id">
+            <h3 class="panel-title">Лучший ответ</h3>
+        </div>
+        <div class="panel-body" data-ng-bind-html="answer.body"></div>
+        <div class="panel-footer">
+            <span class="pull-right" data-ng-bind="answer.localizedCreationDate"></span>
+            <img data-ng-src="{{ answer.owner.profile_image }}" 
+                width="16" height="16"> {{ answer.owner.display_name }}
+        </div>
+    </div>
+</div>
